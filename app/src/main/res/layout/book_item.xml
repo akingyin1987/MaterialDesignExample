@@ -19,9 +19,11 @@
         <ImageView
             android:id="@+id/ivBook"
             android:transitionName="@string/transition_book_img"
-            android:layout_width="109dp"
+            android:layout_width="100dp"
             android:layout_height="135dp"
             android:src="@drawable/book1" />
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,6 +45,13 @@
                 android:layout_marginTop="2dp"
                 android:text="@string/book_description_1"
                 android:textColor="@color/secondary_text" />
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rating="0"
+                android:stepSize="0.5"
+                android:max="10"
+                android:id="@+id/ratingBar"/>
         </LinearLayout>
 
     </LinearLayout>

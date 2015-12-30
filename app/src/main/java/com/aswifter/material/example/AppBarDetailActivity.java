@@ -61,9 +61,9 @@ public class AppBarDetailActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager mViewPager) {
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(DetailFragment.newInstance(getAsset("book_content.txt")), "内容简介");
-        adapter.addFragment(DetailFragment.newInstance(getAsset("book_author.txt")), "作者简介");
-        adapter.addFragment(DetailFragment.newInstance(getAsset("book_menu.txt")), "目录");
+        adapter.addFragment(DetailFragment.newInstance(getAsset("book_content.txt"),false), "内容简介");
+        adapter.addFragment(DetailFragment.newInstance(getAsset("book_author.txt"),false), "作者简介");
+        adapter.addFragment(DetailFragment.newInstance(getAsset("book_menu.txt"),false), "目录");
         mViewPager.setAdapter(adapter);
     }
 

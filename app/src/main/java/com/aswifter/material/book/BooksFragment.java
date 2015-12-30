@@ -20,6 +20,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -28,6 +29,7 @@ import com.aswifter.material.R;
 import com.aswifter.material.Utils;
 import com.aswifter.material.widget.RecyclerItemClickListener;
 import com.bumptech.glide.Glide;
+import com.race604.flyrefresh.FlyRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,21 +44,23 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Chenyc on 15/7/1.
  */
-public class BooksFragment extends Fragment {
+public class BooksFragment extends Fragment implements FlyRefreshLayout.OnPullRefreshListener{
 
     private RecyclerView mRecyclerView;
     private MyAdapter mAdapter;
     private ProgressBar mProgressBar;
     private FloatingActionButton mFabButton;
-
+    private FlyRefreshLayout mFlylayout;
     private static final int ANIM_DURATION_FAB = 400;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_books, null);
+        final View view = inflater.inflate(R.layout.fragment_books, null);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
+      //  mFlylayout = (FlyRefreshLayout)view. findViewById(R.id.fly_layout);
+       // mFlylayout.setOnPullRefreshListener(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), onItemClickListener));
@@ -66,7 +70,16 @@ public class BooksFragment extends Fragment {
 
         mAdapter = new MyAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
-
+//        View actionButton = mFlylayout.getHeaderActionButton();
+//        if (actionButton != null) {
+//            actionButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                    doSearch(getString(R.string.default_search_keyword));
+//                }
+//            });
+//        }
         setUpFAB(view);
         return view;
     }
@@ -82,6 +95,7 @@ public class BooksFragment extends Fragment {
     private void doSearch(String keyword) {
         mProgressBar.setVisibility(View.VISIBLE);
         mAdapter.clearItems();
+     //   mFlylayout.startRefresh();
         Observable.just(keyword).map(new Func1<String, List<Book>>() {
             @Override
             public List<Book> call(String s) {
@@ -95,6 +109,7 @@ public class BooksFragment extends Fragment {
                 public void call(List<Book> books) {
                     mProgressBar.setVisibility(View.GONE);
                     startFABAnimation();
+                 //   mFlylayout.onRefreshFinish();
                     mAdapter.updateItems(books, true);
                     showDialog("查询成功共"+(null == books?0:books.size()));
                 }
@@ -183,7 +198,7 @@ public class BooksFragment extends Fragment {
             public ImageView ivBook;
             public TextView tvTitle;
             public TextView tvDesc;
-
+            public RatingBar  ratingBar;
             public int position;
 
             public ViewHolder(View v) {
@@ -191,6 +206,7 @@ public class BooksFragment extends Fragment {
                 ivBook = (ImageView) v.findViewById(R.id.ivBook);
                 tvTitle = (TextView) v.findViewById(R.id.tvTitle);
                 tvDesc = (TextView) v.findViewById(R.id.tvDesc);
+                ratingBar = (RatingBar)v.findViewById(R.id.ratingBar);
             }
         }
 
@@ -253,7 +269,15 @@ public class BooksFragment extends Fragment {
 
             desc.append("\n副标题: " + book.getSubtitle()
                 + "\n出版年: " + book.getPubdate() + "\n页数: " + book.getPages() + "\n定价:" + book.getPrice());
+
             holder.tvDesc.setText(desc.toString());
+            if(null != book.getRating()){
+                holder.ratingBar.setMax(book.getRating().getMax());
+                holder.ratingBar.setRating(book.getRating().getAverage());
+            }else{
+                holder.ratingBar.setRating(0);
+            }
+
             Glide.with(holder.ivBook.getContext())
                     .load(book.getImage())
                     .fitCenter()
@@ -270,5 +294,17 @@ public class BooksFragment extends Fragment {
         public Book getBook(int pos) {
             return mBooks.get(pos);
         }
+
+
+    }
+
+    @Override
+    public void onRefresh(FlyRefreshLayout view) {
+
+    }
+
+    @Override
+    public void onRefreshAnimationEnd(FlyRefreshLayout view) {
+
     }
 }

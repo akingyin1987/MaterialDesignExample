@@ -35,7 +35,7 @@ public class Book implements Serializable {
     private String image;
     private String catalog;
     private String alt;
-    private String id;
+    private Integer id;
     private String publisher;
     private String title;
     private String url;
@@ -44,7 +44,15 @@ public class Book implements Serializable {
     private String price;
     private String pages;
     private Images images;
+    private Rating rating;
 
+    public Rating getRating() {
+        return rating;
+    }
+
+    public void setRating(Rating rating) {
+        this.rating = rating;
+    }
 
     public String getSubtitle() {
         return subtitle;
@@ -102,11 +110,11 @@ public class Book implements Serializable {
         this.alt = alt;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -172,6 +180,48 @@ public class Book implements Serializable {
 
     public void setImages(Images images) {
         this.images = images;
+    }
+
+    public  class  Rating implements  Serializable{
+        private   Integer  max;
+
+        private   Integer  min;
+
+        private   Float   average;
+
+        private   Long   numRaters;
+
+        public Float getAverage() {
+            return average;
+        }
+
+        public void setAverage(Float average) {
+            this.average = average;
+        }
+
+        public Integer getMax() {
+            return max;
+        }
+
+        public void setMax(Integer max) {
+            this.max = max;
+        }
+
+        public Integer getMin() {
+            return min;
+        }
+
+        public void setMin(Integer min) {
+            this.min = min;
+        }
+
+        public Long getNumRaters() {
+            return numRaters;
+        }
+
+        public void setNumRaters(Long numRaters) {
+            this.numRaters = numRaters;
+        }
     }
 
     public class Images implements Serializable {

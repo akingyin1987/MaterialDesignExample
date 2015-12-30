@@ -14,10 +14,19 @@ import android.widget.ImageView;
 
 import com.aswifter.material.R;
 import com.aswifter.material.example.DetailFragment;
+import com.aswifter.material.net.BookServerApi;
+import com.aswifter.material.net.RetrofitUtils;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Call;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Chenyc on 15/7/1.
@@ -27,6 +36,8 @@ public class BookDetailActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     private  Book mBook;
+    private BookServerApi   serverApi;
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,23 +62,60 @@ public class BookDetailActivity extends AppCompatActivity {
                 .load(mBook.getImages().getLarge())
                 .fitCenter()
                 .into(ivImage);
+        serverApi = RetrofitUtils.createApi(this,BookServerApi.class);
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(mViewPager);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        tabLayout.addTab(tabLayout.newTab().setText("内容简介"));
-        tabLayout.addTab(tabLayout.newTab().setText("作者简介"));
-        tabLayout.addTab(tabLayout.newTab().setText("目录"));
-        tabLayout.setupWithViewPager(mViewPager);
+         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+
+
+        loadBookInfo(mBook.getId());
     }
+
+    public   void   loadBookInfo(Integer  id){
+        Observable.just(id).map(new Func1<Integer, Book>() {
+            @Override
+            public Book call(Integer integer) {
+
+                try {
+                   return serverApi.findBookById(integer).execute().body();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                    return null;
+                }
+            }
+
+            ).
+            observeOn(AndroidSchedulers.mainThread()
+            )
+                .
+            subscribeOn(Schedulers.newThread()
+
+            ).
+
+            subscribe(new Action1<Book>() {
+                          @Override
+                          public void call(Book book) {
+                              mBook = book;
+                              setupViewPager(mViewPager);
+                              tabLayout.addTab(tabLayout.newTab().setText("内容简介"));
+                              tabLayout.addTab(tabLayout.newTab().setText("作者简介"));
+                              tabLayout.addTab(tabLayout.newTab().setText("目录"));
+                              tabLayout.setupWithViewPager(mViewPager);
+                          }
+                      }
+            );
+        }
 
 
     private void setupViewPager(ViewPager mViewPager) {
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(DetailFragment.newInstance(mBook.getSummary()), "内容简介");
-        adapter.addFragment(DetailFragment.newInstance(mBook.getAuthor_intro()), "作者简介");
-        adapter.addFragment(DetailFragment.newInstance(mBook.getCatalog()), "目录");
+        adapter.addFragment(DetailFragment .newInstance(mBook.getSummary(),false), "内容简介");
+        adapter.addFragment(DetailFragment.newInstance(mBook.getAuthor_intro(), false), "作者简介");
+        adapter.addFragment(DetailFragment.newInstance(mBook.getCatalog(),false), "目录");
+        adapter.addFragment(DetailFragment.newInstance(mBook.getId(),true),"评论");
         mViewPager.setAdapter(adapter);
     }
 
