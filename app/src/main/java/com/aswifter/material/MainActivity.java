@@ -1,5 +1,6 @@
 package com.aswifter.material;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -75,9 +76,10 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
         findViewById(R.id.profile_image).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchToBlog();
+               // switchToBlog();
                 mDrawerLayout.closeDrawers();
-                mNavigationView.getMenu().getItem(1).setChecked(true);
+                Intent  mintent = new Intent(MainActivity.this, com.MainActivity.class);
+                startActivity(mintent);
             }
         });
     }

@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="actionbar_bg">#fff2f2f2</color>
+    <color name="actionbar_bg_pressed">#ffdfdfdf</color>
+    <color name="actionbar_bg_transparent_pressed">#14000000</color>
+
+    <color name="act_bar_btn_text">#ff008cee</color>
+    <color name="act_bar_btn_text_disabled">#ffe5e5e5</color>
+    <color name="act_bar_btn_text_normal">#ffffffff</color>
+
+    <color name="bg_gray">#ffebeced</color>
+    <color name="bg_gray_depressed">#fff5f5f5</color>
+    <color name="bg_gray_pressed">#ffbdbdbd</color>
+    <color name="darkgray">#666</color>
+
     <color name="primary">#009688</color>
     <color name="primary_dark">#00897b</color>
     <color name="primary_light">#B2DFDB</color>

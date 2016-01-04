@@ -13,7 +13,12 @@ import android.widget.TextView;
 import com.aswifter.material.R;
 import com.aswifter.material.net.BookServerApi;
 import com.aswifter.material.net.RetrofitUtils;
+import com.squareup.okhttp.ResponseBody;
 
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -66,9 +71,10 @@ public class DetailFragment extends Fragment {
                 public String call(Integer integer) {
 
                     try{
-                        System.out.println("bookId="+bookId);
-                        Object  obj = bookServerApi.findAllAnnotationsByBook(bookId,"html").execute().body();
-                        return  obj.toString()  ;
+                        System.out.println("bookId=" + bookId);
+                        return bookServerApi.findAllAnnotationsByBook(bookId, "html").execute().body().string();
+
+
                     }catch (Exception e){
                         e.printStackTrace();
                     }

@@ -1,17 +1,17 @@
 package com.aswifter.material.net;
 
-import com.google.gson.TypeAdapter;
+
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
-import java.io.Reader;
+
 
 import retrofit.Converter;
 
 /**
  * Created by zlcd on 2015/12/30.
  */
-public class StringResponBodyConverter<T>  implements Converter<Response, T> {
+final class StringResponBodyConverter<T>  implements Converter<Response, T> {
 
 
 

@@ -1,7 +1,6 @@
 package com.aswifter.material.net;
 
-import com.google.gson.TypeAdapter;
-import com.google.gson.reflect.TypeToken;
+
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.ResponseBody;
 

@@ -3,9 +3,13 @@ package com.aswifter.material.net;
 import android.support.annotation.NonNull;
 
 import com.aswifter.material.book.Book;
+import com.squareup.okhttp.ResponseBody;
+
 
 import retrofit.Call;
 
+
+import retrofit.Response;
 import retrofit.http.GET;
 import retrofit.http.Path;
 import retrofit.http.Query;
@@ -20,7 +24,7 @@ public interface BookServerApi {
     Call<Book> findBookById(@Path("id") @NonNull Integer   id);
 
     @GET("v2/book/{id}/annotations")
-    Call<String>  findAllAnnotationsByBook(@Path("id") @NonNull Integer   id,@Query("format") String format);
+    Call<ResponseBody> findAllAnnotationsByBook(@Path("id") @NonNull Integer   id,@Query("format") String format);
 
     @GET("v2/book/series/{id}/books")
     Call<String>  findBooksByBook(@Path("id") @NonNull Integer   id);
