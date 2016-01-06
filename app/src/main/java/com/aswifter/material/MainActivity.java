@@ -11,10 +11,16 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.aswifter.material.book.BooksFragment;
 import com.aswifter.material.widget.BackHandledFragment;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.zlcdgroup.photos.IndexActivity;
+import com.zlcdgroup.photos.SelectPhotoActivity;
 
 public class MainActivity extends AppCompatActivity implements BackHandledFragment.BackHandlerInterface {
 
@@ -71,15 +77,32 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
         mToolbar.setTitle(R.string.navigation_about);
     }
 
-
+    ImageView   imageView;
     private void setUpProfileImage() {
-        findViewById(R.id.profile_image).setOnClickListener(new View.OnClickListener() {
+        imageView = (ImageView)findViewById(R.id.profile_image);
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // switchToBlog();
+                // switchToBlog();
                 mDrawerLayout.closeDrawers();
-                Intent  mintent = new Intent(MainActivity.this, com.MainActivity.class);
+                Intent mintent = new Intent(MainActivity.this, com.MainActivity.class);
                 startActivity(mintent);
+            }
+        });
+        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                new MaterialDialog.Builder(MainActivity.this).title("提示").content("确定要更换头像吗")
+                    .autoDismiss(true)  // notice attr is used instead of none or res for attribute resolving
+                  .positiveText("确定").negativeText("取消").onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                        SelectPhotoActivity.isSingle = true;
+                        Intent   intent  =  new Intent(MainActivity.this, SelectPhotoActivity.class);
+                        startActivityForResult(intent,1);
+                    }
+                }).show();
+                return true;
             }
         });
     }
@@ -163,5 +186,20 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
             }
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            try{
+                String   result = data.getStringExtra("result");
+                ImageLoader   imageLoader = ImageLoader.getInstance();
+                imageLoader.displayImage("file://"+result,imageView);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }
     }
 }

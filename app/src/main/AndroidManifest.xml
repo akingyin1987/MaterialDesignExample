@@ -38,6 +38,8 @@
 
         <activity android:name="com.MainActivity"/>
         <activity android:name="com.ShowImageActivity"/>
+        <activity android:name="com.zlcdgroup.photos.SelectPhotoActivity"/>
+        <activity android:name="com.zlcdgroup.photos.IndexActivity"/>
     </application>
 
 </manifest>

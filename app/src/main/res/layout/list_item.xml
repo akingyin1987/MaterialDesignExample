@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="110dip"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        >
+        
+        <ImageView 
+            android:id="@+id/myimage_view"
+            android:layout_width="95dip"
+            android:layout_height="95dip"
+            android:padding="20dip"
+            android:background="@mipmap/albums_bg"
+            android:layout_centerVertical="true"
+            />
+        
+        <TextView 
+            android:id="@+id/folder_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所有图片"
+            android:layout_toRightOf="@id/myimage_view"
+            android:layout_marginTop="20dip"
+            android:layout_marginLeft="10dip"
+            />
+        <TextView 
+            android:id="@+id/count_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="n张"
+            android:layout_toRightOf="@id/myimage_view"
+            android:layout_marginTop="20dip"
+            android:layout_below="@id/folder_text"
+            android:layout_marginLeft="10dip"
+            />
+        
+        <ImageView
+            android:id="@+id/choose_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/signup_choose"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            />
+    </RelativeLayout>
+
+</LinearLayout>
