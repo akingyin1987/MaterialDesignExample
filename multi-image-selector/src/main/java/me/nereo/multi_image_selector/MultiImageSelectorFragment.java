@@ -31,8 +31,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialcamera.MaterialCamera;
-import com.jmolsmobile.landscapevideocapture.VideoCaptureActivity;
+
 import com.jmolsmobile.landscapevideocapture.configuration.CaptureConfiguration;
 import com.jmolsmobile.landscapevideocapture.configuration.PredefinedCaptureConfigurations;
 import com.squareup.picasso.Picasso;

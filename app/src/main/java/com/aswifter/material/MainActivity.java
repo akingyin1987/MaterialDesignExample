@@ -1,6 +1,7 @@
 package com.aswifter.material;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -16,11 +17,18 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.camera.CropImageIntentBuilder;
 import com.aswifter.material.book.BooksFragment;
 import com.aswifter.material.widget.BackHandledFragment;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zlcdgroup.photos.IndexActivity;
 import com.zlcdgroup.photos.SelectPhotoActivity;
+
+import java.io.File;
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
 public class MainActivity extends AppCompatActivity implements BackHandledFragment.BackHandlerInterface {
 
@@ -50,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
         //profile Image
         setUpProfileImage();
 
-
         switchToBook();
 
     }
@@ -79,7 +86,9 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
 
     ImageView   imageView;
     private void setUpProfileImage() {
+
         imageView = (ImageView)findViewById(R.id.profile_image);
+        System.out.println("image="+(null == findViewById(R.id.profile_image)));
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,8 +107,12 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
                     @Override
                     public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
                         SelectPhotoActivity.isSingle = true;
-                        Intent   intent  =  new Intent(MainActivity.this, SelectPhotoActivity.class);
-                        startActivityForResult(intent,1);
+
+                        Intent   intent  =  new Intent(MainActivity.this, MultiImageSelectorActivity.class);
+                        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE,MultiImageSelectorActivity.MODE_SINGLE);
+                        intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA,false);
+
+                        startActivityForResult(intent, REQUEST_PICTURE);
                     }
                 }).show();
                 return true;
@@ -188,17 +201,32 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
 
     }
 
+    private static int REQUEST_PICTURE = 1;
+    private static int REQUEST_CROP_PICTURE = 2;
+    private String  temp;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
+        if(requestCode == REQUEST_PICTURE){
             try{
-                String   result = data.getStringExtra("result");
-                ImageLoader   imageLoader = ImageLoader.getInstance();
-                imageLoader.displayImage("file://"+result,imageView);
+                List<String>  result = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+                Uri croppedImage = Uri.fromFile(new File(result.get(0)));
+                temp = result.get(0);
+                CropImageIntentBuilder cropImage = new CropImageIntentBuilder(200, 200, croppedImage);
+                cropImage.setOutlineColor(0xFF03A9F4);
+                cropImage.setSourceImage(data.getData());
+
+                startActivityForResult(cropImage.getIntent(this), REQUEST_CROP_PICTURE);
+
             }catch (Exception e){
                 e.printStackTrace();
             }
+
+        }else if(requestCode == REQUEST_CROP_PICTURE){
+            ImageLoader   imageLoader = ImageLoader.getInstance();
+
+                imageLoader.displayImage("file://"+temp,imageView);
 
         }
     }
