@@ -55,6 +55,10 @@ public class MulitImageBrowseActivity  extends FragmentActivity implements Multi
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(adapter.getmSelectedImages().size() == 0){
+                    Toast.makeText(MulitImageBrowseActivity.this,"当前未选择",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Images images1 = new Images();
                 images1.setImages(adapter.getmSelectedImages());
                 Intent intent = new Intent();
@@ -90,11 +94,20 @@ public class MulitImageBrowseActivity  extends FragmentActivity implements Multi
             commit.setText("完成("+images.getImages().size()+"/"+MultiImageSelectorFragment.mDesireImageCount+")");
         }
         System.out.println("prive="+preiveimages.getImages().size());
-        adapter.setData(preiveimages.getImages());
+
         System.out.println("tem="+(null ==temp));
         if(adapter.getmSelectedImages().size()>0){
             int postion = getSelectPostion(preiveimages.getImages(),null == temp?adapter.getmSelectedImages().get(0):temp);
             viewPager.setCurrentItem(postion);
+        }
+        if(MultiImageSelectorFragment.mode == MultiImageSelectorFragment.MODE_SINGLE ){
+            List<Image>  tempimages = new ArrayList<>();
+            if(null != temp){
+                tempimages.add(temp);
+            }
+            adapter.setData(tempimages);
+        }else{
+            adapter.setData(preiveimages.getImages());
         }
     }
 
@@ -126,6 +139,9 @@ public class MulitImageBrowseActivity  extends FragmentActivity implements Multi
 
     @Override
     public void onImageSelected(String path) {
+        if(MultiImageSelectorFragment.mode == MultiImageSelectorFragment.MODE_SINGLE){
+            return;
+        }
         commit.setText("完成("+adapter.getmSelectedImages().size()+"/"+MultiImageSelectorFragment.mDesireImageCount+")");
     }
 

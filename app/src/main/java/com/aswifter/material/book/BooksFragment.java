@@ -125,8 +125,11 @@ public class BooksFragment extends Fragment implements FlyRefreshLayout.OnPullRe
     }
 
     private  void  showDialog(String  message){
-        new MaterialDialog.Builder(getActivity()).theme(Theme.LIGHT)
-            .title("提示").content(message).show();
+        if(null != getActivity()){
+            new MaterialDialog.Builder(getActivity()).theme(Theme.LIGHT)
+                .title("提示").content(message).show();
+        }
+
     }
     private void setUpFAB(View view) {
         mFabButton = (FloatingActionButton) view.findViewById(R.id.fab_normal);
