@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:text="APP开发者"
         android:gravity="center"
+        android:id="@+id/profile_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
          />
 

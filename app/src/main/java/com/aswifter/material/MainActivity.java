@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -21,13 +22,13 @@ import com.android.camera.CropImageIntentBuilder;
 import com.aswifter.material.book.BooksFragment;
 import com.aswifter.material.widget.BackHandledFragment;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.zlcdgroup.photos.IndexActivity;
+
 import com.zlcdgroup.photos.SelectPhotoActivity;
 
 import java.io.File;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
 public class MainActivity extends AppCompatActivity implements BackHandledFragment.BackHandlerInterface {
@@ -56,10 +57,10 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
         setupDrawerContent(mNavigationView);
 
         //profile Image
-        setUpProfileImage();
+
 
         switchToBook();
-
+        setUpProfileImage();
     }
 
 
@@ -86,9 +87,10 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
 
     ImageView   imageView;
     private void setUpProfileImage() {
+        View  headerView = mNavigationView.getHeaderView(0);
 
-        imageView = (ImageView)findViewById(R.id.profile_image);
-        System.out.println("image="+(null == findViewById(R.id.profile_image)));
+        imageView = (ImageView)headerView.findViewById(R.id.profile_image);
+     //   System.out.println("image="+(null == findViewById(R.id.profile_image)));
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
