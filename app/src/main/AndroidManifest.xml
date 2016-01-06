@@ -40,6 +40,11 @@
         <activity android:name="com.ShowImageActivity"/>
         <activity android:name="com.zlcdgroup.photos.SelectPhotoActivity"/>
         <activity android:name="com.zlcdgroup.photos.IndexActivity"/>
+        <activity
+            android:configChanges="orientation|screenSize"
+            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
+
+        <activity android:name="me.nereo.multi_image_selector.MulitImageBrowseActivity" />
     </application>
 
 </manifest>
