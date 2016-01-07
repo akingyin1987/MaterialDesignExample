@@ -8,6 +8,10 @@
             android:icon="@drawable/ic_favorite"
             android:title="@string/navigation_book" />
         <item
+            android:id="@+id/navigation_item_chat"
+            android:icon="@drawable/ic_favorite"
+            android:title="@string/navigation_chat" />
+        <item
             android:id="@+id/navigation_item_example"
             android:icon="@drawable/ic_favorite"
             android:title="@string/navigation_example" />

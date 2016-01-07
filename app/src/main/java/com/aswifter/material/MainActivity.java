@@ -21,6 +21,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.camera.CropImageIntentBuilder;
 import com.aswifter.material.book.BooksFragment;
 import com.aswifter.material.widget.BackHandledFragment;
+import com.chat.ChatFragment;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import com.zlcdgroup.photos.SelectPhotoActivity;
@@ -77,6 +78,11 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
     private void switchToBlog() {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new BlogFragment()).commit();
         mToolbar.setTitle(R.string.navigation_my_blog);
+    }
+
+    public  void  switchToChat(){
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, ChatFragment.newInstance()).commit();
+        mToolbar.setTitle(R.string.navigation_chat);
     }
 
 
@@ -141,6 +147,9 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
                                 break;
                             case R.id.navigation_item_about:
                                 switchToAbout();
+                                break;
+                            case R.id.navigation_item_chat:
+                                switchToChat();
                                 break;
 
                         }
