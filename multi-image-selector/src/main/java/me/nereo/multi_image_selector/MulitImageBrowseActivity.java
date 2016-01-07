@@ -49,6 +49,7 @@ public class MulitImageBrowseActivity  extends FragmentActivity implements Multi
         Image   temp = (Image)getIntent().getSerializableExtra("frist");
         setContentView(R.layout.activity_viewpage_select);
         viewPager = (ViewPager)findViewById(R.id.view_pager);
+
         tv_left = (TextView)findViewById(R.id.tv_left);
         commit = (Button)findViewById(R.id.commit);
 
