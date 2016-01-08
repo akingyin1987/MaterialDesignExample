@@ -18,14 +18,23 @@ package com.picker;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.adapter.ListViewDataAdapter;
+
+import com.adapter.ViewHolderBase;
+import com.adapter.ViewHolderCreator;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.qrcode.R;
 import com.qrcode.utils.CommonUtils;
+import com.util.ImageLoaderHelper;
+
+import java.util.List;
 
 
 /**
@@ -35,22 +44,19 @@ import com.qrcode.utils.CommonUtils;
  * PkgName: com.github.obsessive.simplifyreader.ui.activity.picker
  * Description:
  */
-public class CommonImagePickerDetailActivity extends BaseActivity {
+public class CommonImagePickerDetailActivity extends AppCompatActivity {
 
     public static final String KEY_BUNDLE_RESULT_IMAGE_PATH = "KEY_BUNDLE_RESULT_IMAGE_PATH";
 
-    @InjectView(R.id.common_image_picker_detail_grid_view)
+
     GridView commonImagePickerDetailGridView;
 
     private ListViewDataAdapter<ImageItem> mGridViewAdapter = null;
     private List<ImageItem> mGridListData = null;
 
-    @Override
-    protected boolean isApplyKitKatTranslucency() {
-        return true;
-    }
 
-    @Override
+
+
     protected void getBundleExtras(Bundle extras) {
         mGridListData = extras.getParcelableArrayList(CommonImagePickerListActivity
                 .KEY_BUNDLE_ALBUM_PATH);
@@ -61,22 +67,15 @@ public class CommonImagePickerDetailActivity extends BaseActivity {
         }
     }
 
+
     @Override
-    protected int getContentViewLayoutID() {
-        return R.layout.activity_common_image_picker_detail;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_common_image_picker_detail);
+        commonImagePickerDetailGridView = (GridView)findViewById(R.id.common_image_picker_detail_grid_view);
+
     }
 
-    @Override
-    protected void onEventComming(EventCenter eventCenter) {
-
-    }
-
-    @Override
-    protected View getLoadingTargetView() {
-        return null;
-    }
-
-    @Override
     protected void initViewsAndEvents() {
         mGridViewAdapter = new ListViewDataAdapter<>(new ViewHolderCreator<ImageItem>() {
             @Override
@@ -88,7 +87,7 @@ public class CommonImagePickerDetailActivity extends BaseActivity {
                     @Override
                     public View createView(LayoutInflater layoutInflater) {
                         View convertView = layoutInflater.inflate(R.layout.grid_item_common_image_picker, null);
-                        mItemImage = ButterKnife.findById(convertView, R.id.grid_item_common_image_picker_image);
+                        mItemImage =(ImageView) convertView.findViewById( R.id.grid_item_common_image_picker_image);
                         return convertView;
                     }
 
@@ -98,7 +97,7 @@ public class CommonImagePickerDetailActivity extends BaseActivity {
                             String imagePath = itemData.getImagePath();
                             if (!CommonUtils.isEmpty(imagePath)) {
                                 ImageLoader.getInstance().displayImage("file://" + imagePath,
-                                        mItemImage, ImageLoaderHelper.getInstance(mContext).getDisplayOptions());
+                                        mItemImage, ImageLoaderHelper.getInstance(CommonImagePickerDetailActivity.this).getDisplayOptions());
                             }
                         }
                     }
@@ -126,33 +125,5 @@ public class CommonImagePickerDetailActivity extends BaseActivity {
         });
     }
 
-    @Override
-    protected void onNetworkConnected(NetUtils.NetType type) {
 
-    }
-
-    @Override
-    protected void onNetworkDisConnected() {
-
-    }
-
-    @Override
-    protected boolean isApplyStatusBarTranslucency() {
-        return true;
-    }
-
-    @Override
-    protected boolean isBindEventBusHere() {
-        return false;
-    }
-
-    @Override
-    protected boolean toggleOverridePendingTransition() {
-        return true;
-    }
-
-    @Override
-    protected TransitionMode getOverridePendingTransitionMode() {
-        return TransitionMode.BOTTOM;
-    }
 }
