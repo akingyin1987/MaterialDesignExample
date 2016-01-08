@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="btn_history">History</string>
+    <string name="btn_picture">Picture</string>
+    <string name="btn_light">Light</string>
+    <string name="btn_ok">Ok</string>
+    <string name="qrcode">QR Code</string>
+    <string name="barcode">Barcode</string>
+    <string name="tips_open_camera_error">Failed to open camera, please ensure the permission is allowed and try again</string>
+    <string name="tips_decode_null">No data resolved</string>
+</resources>
