@@ -11,6 +11,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/multi-image-selector" />
+            <option value="$PROJECT_DIR$/qrcode" />
+            <option value="$PROJECT_DIR$/sharelib" />
           </set>
         </option>
       </GradleProjectSettings>
